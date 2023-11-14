@@ -22,7 +22,7 @@
             <input type="text" name="title" id="title" class="form-control @error('title') is-invalid @enderror"
                 placeholder="Insert project title" aria-describedby="helpId" value="{{ old('title') }}">
         </div>
-        <div class="mb-3">
+        <div class="mb-4">
             <label for="type_id" class="form-label">Choose a Typology</label>
             <select class="form-select form-select @error('type_id') is-invalid @enderror" name="type_id" id="type_id">
                 <option selected disabled>Select one</option>
@@ -35,6 +35,19 @@
 
             </select>
         </div>
+
+        <label for="type_id" class="form-label d-block">Choose which Technologies</label>
+        <div class="my-4">
+            @foreach ($technologies as $technology)
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="technologies[]" name="technologies[]"
+                        value="{{ $technology->id }}"
+                        {{ in_array($technology->id, old('technologies', [])) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="technologies[]">{{ $technology->name }}</label>
+                </div>
+            @endforeach
+        </div>
+
         <div class="mb-4">
             <label for="cover_image" class="form-label">Add Image</label>
             <input type="file" name="cover_image" id="cover_image"

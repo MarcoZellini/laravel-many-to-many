@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Models\Project;
 use App\Models\Type;
+use App\Models\Technology;
+
 
 class ProjectController extends Controller
 {
@@ -25,7 +27,14 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('admin.projects.create', ['types' => Type::all()]);
+        return view(
+            'admin.projects.create',
+            [
+                'types' => Type::all(),
+                'technologies' => Technology::all()
+            ],
+
+        );
     }
 
     /**
@@ -33,6 +42,7 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
+        //dd($request);
         $val_data = $request->validated();
 
         $val_data['slug'] = Project::generateSlug($request->title);
@@ -42,7 +52,8 @@ class ProjectController extends Controller
             $val_data['cover_image'] = $path;
         }
 
-        Project::create($val_data);
+        $project = Project::create($val_data);
+        $project->technologies()->attach($request->technologies);
 
         return to_route('admin.projects.index')->with('message', 'Well Done! Project created successfully!');
     }
@@ -64,7 +75,8 @@ class ProjectController extends Controller
             'admin.projects.edit',
             [
                 'project' => $project,
-                'types' => Type::all()
+                'types' => Type::all(),
+                'technologies' => Technology::all()
             ]
         );
     }
@@ -92,6 +104,9 @@ class ProjectController extends Controller
         }
 
         $project->update($val_data);
+        if ($request->has('technologies')) {
+            $project->technologies()->sync($request->technologies);
+        }
 
         return to_route('admin.projects.index')->with('message', 'Well Done! Project edited successfully!');
     }
@@ -121,6 +136,10 @@ class ProjectController extends Controller
     public function forceDestroy($slug)
     {
         $project = Project::withTrashed()->where('slug', '=', $slug)->first();
+
+        if ($project->technologies) {
+            $project->technologies()->detach();
+        }
 
         $project->forceDelete();
 
