@@ -26,7 +26,7 @@
             <label for="type_id" class="form-label">Choose a Typology</label>
             <select class="form-select form-select @error('type_id') is-invalid @enderror" name="type_id" id="type_id">
                 <option selected disabled>Select one</option>
-                <option>Untyped</option>
+                <option value="">Untyped</option>
 
                 @foreach ($types as $type)
                     <option value="{{ $type->id }}" {{ $type->id == old('type_id') ? 'selected' : '' }}>
