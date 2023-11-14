@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\TypeController;
+use App\Http\Controllers\Admin\TechnologyController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +37,9 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
         'types' => 'type:slug'
     ]);
 
+    Route::get('technologies/trash', [TechnologyController::class, 'trashed'])->name('technologies.trash');
+    Route::put('technologies/{technology}/restore', [TechnologyController::class, 'restoreTrash'])->name('technologies.restore');
+    Route::delete('technologies/{technology}/destroy', [TechnologyController::class, 'forceDestroy'])->name('technologies.forceDestroy');
     Route::resource('technologies', TechnologyController::class)->parameters([
         'technologies' => 'technology:slug'
     ]);

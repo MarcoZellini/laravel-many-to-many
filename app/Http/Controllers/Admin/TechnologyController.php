@@ -14,7 +14,7 @@ class TechnologyController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.technologies.index', ['technologies' => Technology::orderByDesc('id')->paginate(7)]);
     }
 
     /**
@@ -22,7 +22,7 @@ class TechnologyController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.technologies.create');
     }
 
     /**
@@ -30,7 +30,11 @@ class TechnologyController extends Controller
      */
     public function store(StoreTechnologyRequest $request)
     {
-        //
+        $val_data = $request->validated();
+        $val_data['slug'] = Technology::generateSlug($val_data['name']);
+        Technology::create($val_data);
+
+        return to_route('admin.technologies.index')->with('message', 'Well Done! Technology created successfully!');
     }
 
     /**
@@ -38,7 +42,7 @@ class TechnologyController extends Controller
      */
     public function show(Technology $technology)
     {
-        //
+        return view('admin.technologies.show', ['technology' => $technology]);
     }
 
     /**
@@ -46,7 +50,7 @@ class TechnologyController extends Controller
      */
     public function edit(Technology $technology)
     {
-        //
+        return view('admin.technologies.edit', ['technology' => $technology]);
     }
 
     /**
@@ -54,7 +58,11 @@ class TechnologyController extends Controller
      */
     public function update(UpdateTechnologyRequest $request, Technology $technology)
     {
-        //
+        $val_data = $request->validated();
+        $val_data['slug'] = Technology::generateSlug($val_data['name']);
+        $technology->update($val_data);
+
+        return to_route('admin.technologies.index')->with('message', 'Well Done! Technology Edited successfully!');
     }
 
     /**
@@ -62,6 +70,26 @@ class TechnologyController extends Controller
      */
     public function destroy(Technology $technology)
     {
-        //
+        $technology->delete();
+        return to_route('admin.technologies.index')->with('message', 'Well Done! Technology Deleted successfully!');
+    }
+
+    public function trashed()
+    {
+        return view('admin.technologies.trash', ['trashedTechnologies' => Technology::onlyTrashed()->orderByDesc('id')->paginate(7)]);
+    }
+
+    public function restoreTrash($slug)
+    {
+        $technology = Technology::withTrashed()->where('slug', '=', $slug)->first();
+        $technology->restore();
+        return to_route('admin.technologies.trash')->with('message', 'Well Done! Type Restored Successfully!');
+    }
+
+    public function forceDestroy($slug)
+    {
+        $technology = Technology::withTrashed()->where('slug', '=', $slug)->first();
+        $technology->forceDelete();
+        return to_route('admin.technologies.trash')->with('message', 'Well Done! Type Deleted Successfully!');
     }
 }
