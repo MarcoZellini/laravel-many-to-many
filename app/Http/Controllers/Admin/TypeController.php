@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTypeRequest;
 use App\Http\Requests\UpdateTypeRequest;
+use App\Models\Project;
 
 class TypeController extends Controller
 {
@@ -43,7 +44,13 @@ class TypeController extends Controller
      */
     public function show(Type $type)
     {
-        return view('admin.types.show', ['type' => $type]);
+        return view(
+            'admin.types.show',
+            [
+                'type' => $type,
+                'projects' => Project::all()->where('type_id', '=', $type->id)
+            ]
+        );
     }
 
     /**

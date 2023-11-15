@@ -6,6 +6,7 @@ use App\Models\Technology;
 use App\Http\Requests\StoreTechnologyRequest;
 use App\Http\Requests\UpdateTechnologyRequest;
 use App\Http\Controllers\Controller;
+use App\Models\Project;
 
 class TechnologyController extends Controller
 {
@@ -42,7 +43,10 @@ class TechnologyController extends Controller
      */
     public function show(Technology $technology)
     {
-        return view('admin.technologies.show', ['technology' => $technology]);
+        return view('admin.technologies.show', [
+            'technology' => $technology,
+            'projects' => $technology->projects
+        ]);
     }
 
     /**
