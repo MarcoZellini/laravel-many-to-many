@@ -92,6 +92,12 @@ class TypeController extends Controller
     {
         $type = Type::withTrashed()->where('slug', '=', $slug)->first();
 
+        foreach ($type->projects as $project) {
+            $project->update([
+                'type_id' => null
+            ]);
+        }
+
         $type->forceDelete();
 
         return to_route('admin.types.trash')->with('message', 'Well Done! Type Deleted Successfully!');

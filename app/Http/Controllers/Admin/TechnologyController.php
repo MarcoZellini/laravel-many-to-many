@@ -89,6 +89,9 @@ class TechnologyController extends Controller
     public function forceDestroy($slug)
     {
         $technology = Technology::withTrashed()->where('slug', '=', $slug)->first();
+
+        $technology->projects()->detach();
+
         $technology->forceDelete();
         return to_route('admin.technologies.trash')->with('message', 'Well Done! Type Deleted Successfully!');
     }

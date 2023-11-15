@@ -60,7 +60,7 @@
                                     @forelse ($trashedTypes as $type)
                                         <tr class="">
                                             <td>{{ $type->id }}</td>
-                                            <td>{{ $type->title }}</td>
+                                            <td>{{ $type->name }}</td>
                                             <td>{{ $type->created_at }}</td>
                                             <td>
                                                 <!-- Modal trigger button -->
