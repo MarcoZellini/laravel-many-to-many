@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\Technology;
 
 class DashboardController extends Controller
 {
@@ -15,6 +16,7 @@ class DashboardController extends Controller
             'total_projects' => Project::all()->count(),
             'total_users' => User::all()->count(),
             'last_projects' => Project::orderByDesc('id')->limit(3)->get(),
+            'technologies_counter' => Technology::all()->count(),
         ]);
     }
 }

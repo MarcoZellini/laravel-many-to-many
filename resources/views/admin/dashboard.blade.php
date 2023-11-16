@@ -8,19 +8,27 @@
         <div class="row justify-content-center g-4">
 
             <h5 class="text-muted">Review</h5>
-            <div class="col-12 col-md-6">
-                <div class="card">
+            <div class="col-12 col-md-4">
+                <div class="card h-100">
                     <h6 class="card-header text-uppercase">Projects</h6>
                     <div class="card-body">
                         <strong>Projects Counter:</strong> {{ $total_projects }}
                     </div>
                 </div>
             </div>
-            <div class="col-12 col-md-6">
-                <div class="card">
+            <div class="col-12 col-md-4">
+                <div class="card h-100">
                     <h6 class="card-header text-uppercase">User Counter</h6>
                     <div class="card-body">
-                        <strong>Projects Counter:</strong> {{ $total_users }}
+                        <strong>Users Counter:</strong> {{ $total_users }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-4">
+                <div class="card h-100">
+                    <h6 class="card-header text-uppercase">Technologies Counter</h6>
+                    <div class="card-body">
+                        <strong>Technologies Counter:</strong> {{ $technologies_counter }}
                     </div>
                 </div>
             </div>

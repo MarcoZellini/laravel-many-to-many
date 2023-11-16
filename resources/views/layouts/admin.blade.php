@@ -28,7 +28,7 @@
 
         {{-- mia header --}}
         <header>
-            <nav class="navbar navbar-expand-md bg-dark pt-3" data-bs-theme="dark">
+            <nav class="navbar navbar-expand-md bg-dark pt-2" data-bs-theme="dark">
 
                 <div class="container-fluid px-3">
                     <a class="navbar-brand me-0 me-md text-white d-block d-md-inline me-sm-3"
